@@ -1,5 +1,6 @@
 using Notification.Api.Models;
 using Notification.Api.Repositories;
+using SharedContracts = Shared.Contracts.Notification;
 
 namespace Notification.Api.Services;
 
@@ -16,11 +17,13 @@ public class NotificationService : INotificationService
         _logger = logger;
     }
 
-    public async Task<NotificationResponse> SendAsync(NotificationRequest request)
+    public async Task<SharedContracts.NotificationResponse> SendAsync(SharedContracts.NotificationRequest request)
     {
-        _logger.LogInformation("Sending email to {Email}", request.Email);
+        _logger.LogInformation(
+            "Sending notification to {Email}",
+            request.Email);
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
 
         var notification = new NotificationMessage
         {
@@ -33,9 +36,7 @@ public class NotificationService : INotificationService
 
         _repository.Add(notification);
 
-        _logger.LogInformation("Notification sent successfully.");
-
-        return new NotificationResponse
+        return new SharedContracts.NotificationResponse
         {
             Success = true,
             Status = "Notification Sent"

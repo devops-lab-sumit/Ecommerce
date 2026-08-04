@@ -1,8 +1,8 @@
-using Notification.Api.Models;
+using SharedContracts = Shared.Contracts.Notification;
 
 namespace Notification.Api.Services;
 
 public interface INotificationService
 {
-    Task<NotificationResponse> SendAsync(NotificationRequest request);
+    Task<SharedContracts.NotificationResponse> SendAsync(SharedContracts.NotificationRequest request);
 }

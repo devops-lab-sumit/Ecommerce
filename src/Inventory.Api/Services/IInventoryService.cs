@@ -1,4 +1,4 @@
-using Inventory.Api.Models;
+using Shared.Contracts.Inventory;
 
 namespace Inventory.Api.Services;
 

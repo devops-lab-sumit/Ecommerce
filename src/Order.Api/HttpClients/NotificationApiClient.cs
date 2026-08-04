@@ -12,7 +12,7 @@ public class NotificationApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<bool> SendNotificationAsync(
+    public async Task<NotificationResponse?> SendNotificationAsync(
         string customerName,
         string email)
     {
@@ -23,9 +23,12 @@ public class NotificationApiClient
                 CustomerName = customerName,
                 Email = email,
                 Subject = "Order Created",
-                Message = "Your order has been created successfully."
+                Message = "Your order has been placed successfully."
             });
 
-        return response.IsSuccessStatusCode;
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<NotificationResponse>();
     }
 }

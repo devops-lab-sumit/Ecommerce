@@ -1,10 +1,11 @@
 using OrderModels = Order.Api.Models;
+using SharedContracts = Shared.Contracts.Order;
 
 namespace Order.Api.Services;
 
 public interface IOrderService
 {
-    Task<OrderModels.OrderResponse> CreateOrderAsync(OrderModels.OrderRequest request);
+    Task<OrderModels.OrderResponse> CreateOrderAsync(SharedContracts.OrderRequest request);
 
     IEnumerable<OrderModels.Order> GetOrders();
 

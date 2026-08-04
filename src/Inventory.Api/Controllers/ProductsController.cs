@@ -2,6 +2,7 @@ using Inventory.Api.Models;
 using Inventory.Api.Repositories;
 using Inventory.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using SharedContracts = Shared.Contracts.Inventory;
 
 namespace Inventory.Api.Controllers;
 
@@ -51,7 +52,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("reserve")]
-    public IActionResult Reserve(ReserveStockRequest request)
+    public IActionResult Reserve(SharedContracts.ReserveStockRequest request)
     {
         _logger.LogInformation(
             "Reserve request received. ProductId: {ProductId}, Quantity: {Quantity}",

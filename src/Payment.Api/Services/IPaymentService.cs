@@ -1,8 +1,8 @@
-using Payment.Api.Models;
+using SharedContracts = Shared.Contracts.Payment;
 
 namespace Payment.Api.Services;
 
 public interface IPaymentService
 {
-    Task<PaymentResponse> ProcessPaymentAsync(PaymentRequest request);
+    Task<SharedContracts.PaymentResponse> ProcessPaymentAsync(SharedContracts.PaymentRequest request);
 }

@@ -130,3 +130,29 @@ Nothing.
 Just simple synchronous HttpClient.
 
 Then STOP.
+
+------
+
+
+Created a startup script at run-all.ps1.
+
+How to run it
+
+Open PowerShell in the repository root:
+
+In the folder Ecommerce run:
+If PowerShell blocks scripts, run:
+
+What it does
+
+Starts all five APIs from one place:
+Customer.Api
+Inventory.Api
+Payment.Api
+Notification.Api
+Order.Api
+Notes
+
+Each API runs in its own process.
+The script uses the project files under src.
+To stop them, close the PowerShell window or stop the dotnet processes from Task Manager.

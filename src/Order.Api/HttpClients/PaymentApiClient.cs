@@ -12,19 +12,6 @@ public class PaymentApiClient
         _httpClient = httpClient;
     }
 
-    // public async Task<bool> ProcessPaymentAsync(int orderId, decimal amount)
-    // {
-    //     var response = await _httpClient.PostAsJsonAsync(
-    //         "/api/payments",
-    //         new PaymentRequest
-    //         {
-    //             OrderId = orderId,
-    //             Amount = amount
-    //         });
-
-    //     return response.IsSuccessStatusCode;
-    // }
-
     public async Task<PaymentResponse?> ProcessPaymentAsync(
         int orderId,
         decimal amount)
