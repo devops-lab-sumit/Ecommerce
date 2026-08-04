@@ -56,70 +56,96 @@ public class OrderService : IOrderService
     // }
 
 
-public async Task<OrderModels.OrderResponse> CreateOrderAsync(OrderModels.OrderRequest request)
-{
-    var customer =
-        await _customerClient.GetCustomerAsync(request.CustomerId);
-
-    if (customer == null)
+    public async Task<OrderModels.OrderResponse> CreateOrderAsync(OrderModels.OrderRequest request)
     {
-        return new OrderModels.OrderResponse
-        {
-            Success = false,
-            Message = "Customer not found"
-        };
-    }
+        var customer =
+            await _customerClient.GetCustomerAsync(request.CustomerId);
 
-    var inventoryReserved =
+        if (customer == null)
+        {
+            return new OrderModels.OrderResponse
+            {
+                Success = false,
+                Message = "Customer not found"
+            };
+        }
+
+        // var inventoryReserved =
+        //     await _inventoryClient.ReserveStockAsync(
+        //         request.ProductId,
+        //         request.Quantity);
+
+        // if (!inventoryReserved)
+        // {
+        //     return new OrderModels.OrderResponse
+        //     {
+        //         Success = false,
+        //         Message = "Inventory reservation failed"
+        //     };
+        // }
+
+        var inventoryReserved =
         await _inventoryClient.ReserveStockAsync(
             request.ProductId,
             request.Quantity);
 
-    if (!inventoryReserved)
-    {
+        if (inventoryReserved == null || !inventoryReserved.Success)
+        {
+            return new OrderModels.OrderResponse
+            {
+                Success = false,
+                Message = inventoryReserved?.Message ?? "Inventory reservation failed"
+            };
+        }
+
+        // var paymentSuccess =
+        //     await _paymentClient.ProcessPaymentAsync(
+        //         0,
+        //         request.Amount);
+
+        // if (!paymentSuccess)
+        // {
+        //     return new OrderModels.OrderResponse
+        //     {
+        //         Success = false,
+        //         Message = "Payment failed"
+        //     };
+        // }
+        var paymentResponse =
+            await _paymentClient.ProcessPaymentAsync(
+                0,
+                request.Amount);
+
+        if (paymentResponse == null || !paymentResponse.Success)
+        {
+            return new OrderModels.OrderResponse
+            {
+                Success = false,
+                Message = paymentResponse?.Message ?? "Payment failed"
+            };
+        }
+        await _notificationClient.SendNotificationAsync(
+            customer.Name,
+            customer.Email);
+
+        var order = new OrderModels.Order
+        {
+            CustomerId = request.CustomerId,
+            ProductId = request.ProductId,
+            Quantity = request.Quantity,
+            Amount = request.Amount,
+            Status = "Completed"
+        };
+
+        var created = _repository.Add(order);
+
         return new OrderModels.OrderResponse
         {
-            Success = false,
-            Message = "Inventory reservation failed"
+            Success = true,
+            Message = "Order Created Successfully",
+            OrderId = created.Id
         };
     }
-
-    var paymentSuccess =
-        await _paymentClient.ProcessPaymentAsync(
-            0,
-            request.Amount);
-
-    if (!paymentSuccess)
-    {
-        return new OrderModels.OrderResponse
-        {
-            Success = false,
-            Message = "Payment failed"
-        };
-    }
-
-    await _notificationClient.SendNotificationAsync(
-        customer.Name,
-        customer.Email);
-
-    var order = new OrderModels.Order
-    {
-        CustomerId = request.CustomerId,
-        ProductId = request.ProductId,
-        Quantity = request.Quantity,
-        Amount = request.Amount,
-        Status = "Completed"
-    };
-
-    var created = _repository.Add(order);
-
-    return new OrderModels.OrderResponse
-    {
-        Success = true,
-        Message = "Order Created Successfully",
-        OrderId = created.Id
-    };
-}
     public IEnumerable<OrderModels.Order> GetOrders()
     {
         return _repository.GetAll();

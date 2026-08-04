@@ -14,7 +14,14 @@ public class CustomerApiClient
 
     public async Task<CustomerDto?> GetCustomerAsync(int customerId)
     {
-        return await _httpClient.GetFromJsonAsync<CustomerDto>(
-            $"/api/customers/{customerId}");
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<CustomerDto>(
+                $"/api/customers/{customerId}");
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

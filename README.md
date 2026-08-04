@@ -90,3 +90,43 @@ Save Order
 Return Response
 
 This is exactly how a real orchestration service works.
+
+
+for now
+
+React
+
+        |
+
+        ▼
+
+Order API
+
+        |
+
+        ├────────► Customer API
+
+        ├────────► Inventory API
+
+        ├────────► Payment API
+
+        └────────► Notification API
+Nothing more.
+
+No Polly.
+
+No Retry.
+
+No Circuit Breaker.
+
+No Clean Architecture.
+
+No MediatR.
+
+No Event Bus.
+
+Nothing.
+
+Just simple synchronous HttpClient.
+
+Then STOP.

@@ -12,7 +12,22 @@ public class InventoryApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<bool> ReserveStockAsync(int productId, int quantity)
+    // public async Task<bool> ReserveStockAsync(int productId, int quantity)
+    // {
+    //     var response = await _httpClient.PostAsJsonAsync(
+    //         "/api/products/reserve",
+    //         new ReserveStockRequest
+    //         {
+    //             ProductId = productId,
+    //             Quantity = quantity
+    //         });
+
+    //     return response.IsSuccessStatusCode;
+    // }
+
+    public async Task<ReserveStockResponse?> ReserveStockAsync(
+    int productId,
+    int quantity)
     {
         var response = await _httpClient.PostAsJsonAsync(
             "/api/products/reserve",
@@ -22,6 +37,9 @@ public class InventoryApiClient
                 Quantity = quantity
             });
 
-        return response.IsSuccessStatusCode;
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<ReserveStockResponse>();
     }
 }
