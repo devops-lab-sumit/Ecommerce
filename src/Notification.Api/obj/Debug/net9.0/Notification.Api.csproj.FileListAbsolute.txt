@@ -35,3 +35,5 @@ E:\Ecommerce\src\Notification.Api\obj\Debug\net9.0\refint\Notification.Api.dll
 E:\Ecommerce\src\Notification.Api\obj\Debug\net9.0\Notification.Api.pdb
 E:\Ecommerce\src\Notification.Api\obj\Debug\net9.0\Notification.Api.genruntimeconfig.cache
 E:\Ecommerce\src\Notification.Api\obj\Debug\net9.0\ref\Notification.Api.dll
+E:\Ecommerce\src\Notification.Api\bin\Debug\net9.0\Shared.Contracts.dll
+E:\Ecommerce\src\Notification.Api\bin\Debug\net9.0\Shared.Contracts.pdb

@@ -35,3 +35,5 @@ E:\Ecommerce\src\Order.Api\obj\Debug\net9.0\refint\Order.Api.dll
 E:\Ecommerce\src\Order.Api\obj\Debug\net9.0\Order.Api.pdb
 E:\Ecommerce\src\Order.Api\obj\Debug\net9.0\Order.Api.genruntimeconfig.cache
 E:\Ecommerce\src\Order.Api\obj\Debug\net9.0\ref\Order.Api.dll
+E:\Ecommerce\src\Order.Api\bin\Debug\net9.0\Shared.Contracts.dll
+E:\Ecommerce\src\Order.Api\bin\Debug\net9.0\Shared.Contracts.pdb

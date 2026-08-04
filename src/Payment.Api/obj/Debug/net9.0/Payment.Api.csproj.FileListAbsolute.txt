@@ -35,3 +35,5 @@ E:\Ecommerce\src\Payment.Api\obj\Debug\net9.0\refint\Payment.Api.dll
 E:\Ecommerce\src\Payment.Api\obj\Debug\net9.0\Payment.Api.pdb
 E:\Ecommerce\src\Payment.Api\obj\Debug\net9.0\Payment.Api.genruntimeconfig.cache
 E:\Ecommerce\src\Payment.Api\obj\Debug\net9.0\ref\Payment.Api.dll
+E:\Ecommerce\src\Payment.Api\bin\Debug\net9.0\Shared.Contracts.dll
+E:\Ecommerce\src\Payment.Api\bin\Debug\net9.0\Shared.Contracts.pdb

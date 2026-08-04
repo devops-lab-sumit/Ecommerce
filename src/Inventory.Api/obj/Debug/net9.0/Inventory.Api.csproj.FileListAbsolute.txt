@@ -35,3 +35,5 @@ E:\Ecommerce\src\Inventory.Api\obj\Debug\net9.0\refint\Inventory.Api.dll
 E:\Ecommerce\src\Inventory.Api\obj\Debug\net9.0\Inventory.Api.pdb
 E:\Ecommerce\src\Inventory.Api\obj\Debug\net9.0\Inventory.Api.genruntimeconfig.cache
 E:\Ecommerce\src\Inventory.Api\obj\Debug\net9.0\ref\Inventory.Api.dll
+E:\Ecommerce\src\Inventory.Api\bin\Debug\net9.0\Shared.Contracts.dll
+E:\Ecommerce\src\Inventory.Api\bin\Debug\net9.0\Shared.Contracts.pdb

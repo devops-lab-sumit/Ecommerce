@@ -13,7 +13,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
 builder.Services.AddSingleton<IOrderService, OrderService>();
-
+builder.Services.AddHttpClient<CustomerApiClient>(client =>
+{
+    client.BaseAddress =
+        new Uri("http://localhost:5001");
+});
 builder.Services.AddHttpClient<InventoryApiClient>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5002");

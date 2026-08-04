@@ -110,6 +110,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Shared.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Shared.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.Contracts.dll": {}
+        }
       }
     }
   },
@@ -469,11 +479,17 @@
         "swashbuckle.aspnetcore.swaggerui.9.0.4.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "Shared.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../Shared.Contracts/Shared.Contracts.csproj",
+      "msbuildProject": "../Shared.Contracts/Shared.Contracts.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.AspNetCore.OpenApi >= 9.0.4",
+      "Shared.Contracts >= 1.0.0",
       "Swashbuckle.AspNetCore >= 9.0.4"
     ]
   },
@@ -508,7 +524,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Ecommerce\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
+              "projectPath": "E:\\Ecommerce\\src\\Shared.Contracts\\Shared.Contracts.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

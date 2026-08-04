@@ -9,6 +9,7 @@
       "Order.Api/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "9.0.4",
+          "Shared.Contracts": "1.0.0",
           "Swashbuckle.AspNetCore": "9.0.4"
         },
         "runtime": {
@@ -72,6 +73,14 @@
             "fileVersion": "9.0.4.1727"
           }
         }
+      },
+      "Shared.Contracts/1.0.0": {
+        "runtime": {
+          "Shared.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -129,6 +138,11 @@
       "sha512": "sha512-2ugT2OvZsKHqk/2rMDmuqDuFmtix0NvzlXxAfnfHROVMTovbx7Z0UsOQHZa462DBTgdBFnR2Ss6wm4fypfymdA==",
       "path": "swashbuckle.aspnetcore.swaggerui/9.0.4",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.9.0.4.nupkg.sha512"
+    },
+    "Shared.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

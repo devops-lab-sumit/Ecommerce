@@ -1,5 +1,5 @@
 using System.Net.Http.Json;
-using Order.Api.Contracts;
+using Shared.Contracts.Payment;
 
 namespace Order.Api.HttpClients;
 
@@ -12,18 +12,15 @@ public class PaymentApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<bool> ProcessPaymentAsync(
-        int orderId,
-        decimal amount)
+    public async Task<bool> ProcessPaymentAsync(int orderId, decimal amount)
     {
-        var response =
-            await _httpClient.PostAsJsonAsync(
-                "/api/payments",
-                new PaymentRequest
-                {
-                    OrderId=orderId,
-                    Amount=amount
-                });
+        var response = await _httpClient.PostAsJsonAsync(
+            "/api/payments",
+            new PaymentRequest
+            {
+                OrderId = orderId,
+                Amount = amount
+            });
 
         return response.IsSuccessStatusCode;
     }

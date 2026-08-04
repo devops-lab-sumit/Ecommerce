@@ -70,3 +70,6 @@ E:\Ecommerce\src\Customer.Api\obj\Debug\net9.0\refint\Customer.Api.dll
 E:\Ecommerce\src\Customer.Api\obj\Debug\net9.0\Customer.Api.pdb
 E:\Ecommerce\src\Customer.Api\obj\Debug\net9.0\Customer.Api.genruntimeconfig.cache
 E:\Ecommerce\src\Customer.Api\obj\Debug\net9.0\ref\Customer.Api.dll
+E:\Ecommerce\src\Customer.Api\bin\Debug\net9.0\Shared.Contracts.dll
+E:\Ecommerce\src\Customer.Api\bin\Debug\net9.0\Shared.Contracts.pdb
+E:\Ecommerce\src\Customer.Api\obj\Debug\net9.0\Customer.Api.sourcelink.json
