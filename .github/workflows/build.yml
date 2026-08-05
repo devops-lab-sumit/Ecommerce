@@ -1,0 +1,180 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+    inputs:
+
+      service:
+        description: "Service to Build"
+        required: true
+        default: "all"
+        type: choice
+
+        options:
+          - all
+          - customer-api
+          - inventory-api
+          - payment-api
+          - notification-api
+          - order-api
+          - ecommerce-ui
+
+      version:
+        description: "Docker Image Version"
+        required: true
+        default: "1.0.0"
+
+      push_latest:
+        description: "Push latest tag"
+        required: true
+        default: true
+        type: boolean
+
+env:
+
+  REGISTRY: docker.io
+
+  DOCKER_USERNAME: sumit198
+
+jobs:
+
+  customer:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'customer-api'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: customer-api
+
+      dockerfile: src/Customer.Api/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit
+
+###############################################################
+
+  inventory:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'inventory-api'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: inventory-api
+
+      dockerfile: src/Inventory.Api/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit
+
+###############################################################
+
+  payment:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'payment-api'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: payment-api
+
+      dockerfile: src/Payment.Api/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit
+
+###############################################################
+
+  notification:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'notification-api'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: notification-api
+
+      dockerfile: src/Notification.Api/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit
+
+###############################################################
+
+  order:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'order-api'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: order-api
+
+      dockerfile: src/Order.Api/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit
+
+###############################################################
+
+  webui:
+
+    if: |
+      github.event_name == 'push' ||
+      github.event.inputs.service == 'all' ||
+      github.event.inputs.service == 'ecommerce-ui'
+
+    uses: ./.github/workflows/build-service.yml
+
+    with:
+
+      image-name: ecommerce-ui
+
+      dockerfile: src/WebUI/Dockerfile
+
+      version: ${{ github.event.inputs.version || '1.0.0' }}
+
+      push-latest: ${{ github.event.inputs.push_latest || true }}
+
+    secrets: inherit

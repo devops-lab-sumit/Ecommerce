@@ -1,23 +1,29 @@
-using Payment.Api.Models;
-using Payment.Api.Repositories;
 using PaymentModels = Payment.Api.Models;
+using Payment.Api.Repositories;
+using SharedContracts = Shared.Contracts.Payment;
 
 namespace Payment.Api.Services;
 
 public class PaymentService : IPaymentService
 {
     private readonly IPaymentRepository _repository;
+    private readonly ILogger<PaymentService> _logger;
 
-    public PaymentService(IPaymentRepository repository)
+    public PaymentService(
+        IPaymentRepository repository,
+        ILogger<PaymentService> logger)
     {
         _repository = repository;
+        _logger = logger;
     }
 
-    public async Task<PaymentResponse> ProcessPaymentAsync(PaymentRequest request)
+    public async Task<SharedContracts.PaymentResponse> ProcessPaymentAsync(SharedContracts.PaymentRequest request)
     {
-        // Simulate payment gateway
+        _logger.LogInformation(
+            "Processing payment for Order {OrderId}",
+            request.OrderId);
 
-        await Task.Delay(3000);
+        await Task.Delay(1000);
 
         var payment = new PaymentModels.Payment
         {
@@ -29,7 +35,7 @@ public class PaymentService : IPaymentService
 
         _repository.Add(payment);
 
-        return new PaymentResponse
+        return new SharedContracts.PaymentResponse
         {
             Success = true,
             TransactionId = Guid.NewGuid().ToString(),

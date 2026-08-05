@@ -1,6 +1,7 @@
 using CustomerModel = Customer.Api.Models.Customer;
 using Customer.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts.Customer;
 
 namespace Customer.Api.Controllers;
 
@@ -24,7 +25,16 @@ public class CustomersController : ControllerBase
     {
         _logger.LogInformation("Getting all customers");
 
-        return Ok(_repository.GetAll());
+        var customers = _repository
+            .GetAll()
+            .Select(x => new CustomerDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Email = x.Email
+            });
+
+        return Ok(customers);
     }
 
     [HttpGet("{id}")]
@@ -35,7 +45,12 @@ public class CustomersController : ControllerBase
         if (customer == null)
             return NotFound();
 
-        return Ok(customer);
+        return Ok(new CustomerDto
+        {
+            Id = customer.Id,
+            Name = customer.Name,
+            Email = customer.Email
+        });
     }
 
     [HttpPost]

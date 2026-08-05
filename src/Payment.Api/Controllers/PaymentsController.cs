@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Payment.Api.Models;
 using Payment.Api.Repositories;
 using Payment.Api.Services;
+using Shared.Contracts.Payment;
 
 namespace Payment.Api.Controllers;
 

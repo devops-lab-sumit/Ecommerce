@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Order.Api.Models;
 using Order.Api.Services;
+using SharedContracts = Shared.Contracts.Order;
 
 namespace Order.Api.Controllers;
 
@@ -33,7 +34,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(OrderRequest request)
+    public async Task<IActionResult> Create(SharedContracts.OrderRequest request)
     {
         var response = await _service.CreateOrderAsync(request);
 

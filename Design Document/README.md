@@ -90,3 +90,72 @@ Save Order
 Return Response
 
 This is exactly how a real orchestration service works.
+
+
+for now
+
+React
+
+        |
+
+        ▼
+
+Order API
+
+        |
+
+        ├────────► Customer API
+
+        ├────────► Inventory API
+
+        ├────────► Payment API
+
+        └────────► Notification API
+Nothing more.
+
+No Polly.
+
+No Retry.
+
+No Circuit Breaker.
+
+No Clean Architecture.
+
+No MediatR.
+
+No Event Bus.
+
+Nothing.
+
+Just simple synchronous HttpClient.
+
+Then STOP.
+
+------
+
+
+Created a startup script at run-all.ps1.
+
+How to run it
+
+Open PowerShell in the repository root:
+
+    .\run-all.ps1
+
+In the folder Ecommerce run:
+If PowerShell blocks scripts, run:
+    Set-ExecutionPolicy -Scope Process Bypass
+.\run-all.ps1
+What it does
+
+Starts all five APIs from one place:
+Customer.Api
+Inventory.Api
+Payment.Api
+Notification.Api
+Order.Api
+Notes
+
+Each API runs in its own process.
+The script uses the project files under src.
+To stop them, close the PowerShell window or stop the dotnet processes from Task Manager.

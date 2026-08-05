@@ -1,0 +1,60 @@
+name: Docker Build
+
+description: Build and Push Docker Image
+
+inputs:
+
+  registry:
+    required: true
+
+  docker-username:
+    required: true
+
+  image-name:
+    required: true
+
+  dockerfile:
+    required: true
+
+  version:
+    required: true
+
+  push-latest:
+    required: true
+
+runs:
+
+  using: composite
+
+  steps:
+
+    - name: Build Version Tag
+      uses: docker/build-push-action@v6
+
+      with:
+
+        context: .
+
+        file: ${{ inputs.dockerfile }}
+
+        push: true
+
+        tags: |
+          ${{ inputs.registry }}/${{ inputs.docker-username }}/${{ inputs.image-name }}:${{ inputs.version }}
+
+    - name: Push Latest
+
+      if: inputs.push-latest == 'true'
+
+      uses: docker/build-push-action@v6
+
+      with:
+
+        context: .
+
+        file: ${{ inputs.dockerfile }}
+
+        push: true
+
+        tags: |
+          ${{ inputs.registry }}/${{ inputs.docker-username }}/${{ inputs.image-name }}:latest

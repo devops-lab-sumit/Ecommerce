@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Notification.Api.Models;
 using Notification.Api.Repositories;
 using Notification.Api.Services;
+using Shared.Contracts.Notification;
 
 namespace Notification.Api.Controllers;
 
