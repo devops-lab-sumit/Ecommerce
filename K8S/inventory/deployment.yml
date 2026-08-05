@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: inventory-api
+  labels:
+    app: inventory-api
+    env: non-prod
+
+spec:
+  replicas: 2
+  Selector:
+    matchLabels:
+      app: inventory-api
+      env: non-prod
+
+  template:
+    metadata:
+      labels:
+        app: inventory-api
+        env: non-prod
+
+    spec:
+      imagePullSecrets:
+      - name: regcred  # <-- Links your deployment to the Docker Hub credentials
+      containers:
+      - name: inventory-api
+        image: sumit198/inventory-api:1.0.1
+        imagePullPolicy: Always
+
+
