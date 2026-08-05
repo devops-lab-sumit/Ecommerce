@@ -36,10 +36,8 @@ on:
         type: boolean
 
 env:
-
-  REGISTRY: docker.io
-
-  DOCKER_USERNAME: sumit198
+  REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+  DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
 
 jobs:
 
@@ -56,11 +54,12 @@ jobs:
 
       image-name: customer-api
 
+
       dockerfile: src/Customer.Api/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
 
@@ -81,9 +80,9 @@ jobs:
 
       dockerfile: src/Inventory.Api/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
 
@@ -104,9 +103,9 @@ jobs:
 
       dockerfile: src/Payment.Api/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
 
@@ -127,9 +126,9 @@ jobs:
 
       dockerfile: src/Notification.Api/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
 
@@ -150,9 +149,9 @@ jobs:
 
       dockerfile: src/Order.Api/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
 
@@ -173,8 +172,8 @@ jobs:
 
       dockerfile: frontend/Dockerfile
 
-      version: ${{ github.event.inputs.version || '1.0.0' }}
+      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-      push-latest: ${{ github.event.inputs.push_latest || true }}
+      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
 
     secrets: inherit
