@@ -7,16 +7,16 @@ WORKDIR /app
 
 COPY frontend/package*.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY frontend .
+COPY frontend/ .
 
 RUN npm run build
 
 # --------------------------
 # Runtime Stage
 # --------------------------
-FROM nginx:alpine
+FROM nginx:1.28-alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
