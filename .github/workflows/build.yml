@@ -171,7 +171,7 @@ jobs:
 
       image-name: ecommerce-ui
 
-      dockerfile: src/WebUI/Dockerfile
+      dockerfile: frontend/Dockerfile
 
       version: ${{ github.event.inputs.version || '1.0.0' }}
 
