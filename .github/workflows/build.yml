@@ -6,15 +6,12 @@ on:
       - main
 
   workflow_dispatch:
-
     inputs:
-
       service:
-        description: "Service to Build"
+        description: Service to Build
         required: true
-        default: "all"
+        default: all
         type: choice
-
         options:
           - all
           - customer-api
@@ -25,12 +22,12 @@ on:
           - ecommerce-ui
 
       version:
-        description: "Docker Image Version"
+        description: Docker Image Version
         required: true
         default: "1.0.0"
 
       push_latest:
-        description: "Push latest tag"
+        description: Push latest tag
         required: true
         default: true
         type: boolean
@@ -41,139 +38,72 @@ env:
 
 jobs:
 
-  customer:
+  docker:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+
+        include:
+
+          - service: customer-api
+            image: customer-api
+            dockerfile: src/Customer.Api/Dockerfile
+
+          - service: inventory-api
+            image: inventory-api
+            dockerfile: src/Inventory.Api/Dockerfile
+
+          - service: payment-api
+            image: payment-api
+            dockerfile: src/Payment.Api/Dockerfile
+
+          - service: notification-api
+            image: notification-api
+            dockerfile: src/Notification.Api/Dockerfile
+
+          - service: order-api
+            image: order-api
+            dockerfile: src/Order.Api/Dockerfile
+
+          - service: ecommerce-ui
+            image: ecommerce-ui
+            dockerfile: frontend/Dockerfile
 
     if: |
       github.event_name == 'push' ||
       github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'customer-api'
+      github.event.inputs.service == matrix.service
 
-    uses: ./.github/workflows/build-service.yml
+    steps:
 
-    with:
+      - uses: actions/checkout@v4
 
-      image-name: customer-api
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
 
+      - name: Restore
+        run: dotnet restore Ecommerce.sln
 
-      dockerfile: src/Customer.Api/Dockerfile
+      - name: Build
+        run: dotnet build Ecommerce.sln --configuration Release --no-restore
 
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
+      - name: Docker Login
+        uses: ./.github/actions/docker-login
 
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
+      - name: Docker Build
+        uses: ./.github/actions/docker-build
 
-    secrets: inherit
+        with:
 
-###############################################################
+          image-name: ${{ matrix.image }}
 
-  inventory:
+          dockerfile: ${{ matrix.dockerfile }}
 
-    if: |
-      github.event_name == 'push' ||
-      github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'inventory-api'
+          version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
 
-    uses: ./.github/workflows/build-service.yml
-
-    with:
-
-      image-name: inventory-api
-
-      dockerfile: src/Inventory.Api/Dockerfile
-
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
-
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
-
-    secrets: inherit
-
-###############################################################
-
-  payment:
-
-    if: |
-      github.event_name == 'push' ||
-      github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'payment-api'
-
-    uses: ./.github/workflows/build-service.yml
-
-    with:
-
-      image-name: payment-api
-
-      dockerfile: src/Payment.Api/Dockerfile
-
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
-
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
-
-    secrets: inherit
-
-###############################################################
-
-  notification:
-
-    if: |
-      github.event_name == 'push' ||
-      github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'notification-api'
-
-    uses: ./.github/workflows/build-service.yml
-
-    with:
-
-      image-name: notification-api
-
-      dockerfile: src/Notification.Api/Dockerfile
-
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
-
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
-
-    secrets: inherit
-
-###############################################################
-
-  order:
-
-    if: |
-      github.event_name == 'push' ||
-      github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'order-api'
-
-    uses: ./.github/workflows/build-service.yml
-
-    with:
-
-      image-name: order-api
-
-      dockerfile: src/Order.Api/Dockerfile
-
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
-
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
-
-    secrets: inherit
-
-###############################################################
-
-  webui:
-
-    if: |
-      github.event_name == 'push' ||
-      github.event.inputs.service == 'all' ||
-      github.event.inputs.service == 'ecommerce-ui'
-
-    uses: ./.github/workflows/build-service.yml
-
-    with:
-
-      image-name: ecommerce-ui
-
-      dockerfile: frontend/Dockerfile
-
-      version: ${{ github.event_name == 'push' && '1.0.0' || github.event.inputs.version }}
-
-      push-latest: ${{ github.event_name == 'push' && true || github.event.inputs.push_latest }}
-
-    secrets: inherit
+          push-latest: ${{ github.event_name == 'push' && 'true' || github.event.inputs.push_latest }}
