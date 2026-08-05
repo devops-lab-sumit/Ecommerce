@@ -42,7 +42,7 @@ function CustomerTable({
 
                                 <th>Email</th>
 
-                                <th width="120">
+                                <th style ={{width: "120px"}}>
 
                                     Action
 

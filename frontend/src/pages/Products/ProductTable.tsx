@@ -41,7 +41,7 @@ function ProductTable({
 
                             <th>Stock</th>
 
-                            <th width="120">
+                            <th style ={{width: "120px"}}>
 
                                 Action
 
@@ -71,7 +71,7 @@ function ProductTable({
 
                                     <td>
 
-                                        {product.quantity}
+                                        {product.stock}
 
                                     </td>
 
