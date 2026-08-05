@@ -1,0 +1,86 @@
+name: Build Service
+
+on:
+
+  workflow_call:
+
+    inputs:
+
+      image-name:
+        required: true
+        type: string
+
+      dockerfile:
+        required: true
+        type: string
+
+      version:
+        required: true
+        type: string
+
+      push-latest:
+        required: true
+        type: boolean
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    env:
+
+      REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+
+      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+
+        run: dotnet restore Ecommerce.sln
+
+      - name: Build
+
+        run: dotnet build Ecommerce.sln --configuration Release --no-restore
+
+    #   - name: Docker Login
+
+    #     uses: ./.github/actions/docker-login
+
+      - name: Docker Login
+
+        uses: ./.github/actions/docker-login
+
+        with:
+
+            docker-username: ${{ env.DOCKER_USERNAME }}
+
+            docker-password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker Build
+
+        uses: ./.github/actions/docker-build
+
+        with:
+          registry: ${{ env.REGISTRY }}
+
+          docker-username: ${{ env.DOCKER_USERNAME }}
+          
+          image-name: ${{ inputs.image-name }}
+
+          dockerfile: ${{ inputs.dockerfile }}
+
+          version: ${{ inputs.version }}
+
+          push-latest: ${{ inputs.push-latest }}
