@@ -75,4 +75,15 @@ public class ProductRepository : IProductRepository
 
         return true;
     }
+    public bool Delete(int id)
+{
+    var product = Products.FirstOrDefault(x => x.Id == id);
+
+    if (product == null)
+        return false;
+
+    Products.Remove(product);
+
+    return true;
+}
 }

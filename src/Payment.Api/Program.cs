@@ -12,7 +12,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
 
 builder.Services.AddSingleton<IPaymentService, PaymentService>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -20,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("ReactPolicy");
 app.MapControllers();
 
 app.Run();

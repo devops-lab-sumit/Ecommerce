@@ -140,9 +140,12 @@ How to run it
 
 Open PowerShell in the repository root:
 
+    .\run-all.ps1
+
 In the folder Ecommerce run:
 If PowerShell blocks scripts, run:
-
+    Set-ExecutionPolicy -Scope Process Bypass
+.\run-all.ps1
 What it does
 
 Starts all five APIs from one place:

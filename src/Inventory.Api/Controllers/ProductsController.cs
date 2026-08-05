@@ -63,4 +63,15 @@ public class ProductsController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpDelete("{id}")]
+public IActionResult Delete(int id)
+{
+    var deleted = _repository.Delete(id);
+
+    if (!deleted)
+        return NotFound();
+
+    return NoContent();
+}
 }

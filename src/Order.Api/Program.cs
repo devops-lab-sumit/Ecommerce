@@ -13,6 +13,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
 builder.Services.AddSingleton<IOrderService, OrderService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", policy =>
+    {
+      policy
+      .WithOrigins("http://localhost:5173")  
+      .AllowAnyHeader()
+      .AllowAnyMethod();
+    });    
+});
 // builder.Services.AddHttpClient<CustomerApiClient>(client =>
 // {
 //     client.BaseAddress =
@@ -65,6 +76,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("ReactPolicy");
 app.MapControllers();
 
 app.Run();
