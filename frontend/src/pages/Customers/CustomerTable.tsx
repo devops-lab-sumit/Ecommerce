@@ -1,6 +1,7 @@
 import type { Customer } from "../../models/customer";
 import * as customerService from "../../services/customerService";
-
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader/Loader";
 interface Props {
 
     customers: Customer[];
@@ -18,10 +19,11 @@ function CustomerTable({
 }: Props) {
     {
 
-        if (loading)
+        if (loading){
 
-            return <h5>Loading...</h5>;
-
+            // return <h5>Loading...</h5>;
+            return <Loader/>;
+        }
         return (
 
             <div className="card shadow-sm border-0">
@@ -88,7 +90,7 @@ function CustomerTable({
                                                         refresh();
                                                     } catch (error) {
                                                         console.error(error);
-                                                        alert("Unable to delete customer.");
+                                                        toast.error("Unable to delete customer.");
                                                     }
                                                 }}
                                             >

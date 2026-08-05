@@ -1,26 +1,25 @@
 import type { Product } from "../../models/product";
-
+import Loader from "../../components/Loader/Loader";
 interface Props {
-
     products: Product[];
-
     loading: boolean;
-
     refresh: () => void;
-
+    deleteProduct: (id: number) => void;
 }
 
 function ProductTable({
 
     products,
 
-    loading
+    loading,
+
+    deleteProduct
 
 }: Props) {
 
-    if (loading)
-
-        return <h5>Loading...</h5>;
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
 
@@ -80,10 +79,9 @@ function ProductTable({
 
                                         <button
                                             className="btn btn-danger btn-sm"
+                                            onClick={() => deleteProduct(product.id)}
                                         >
-
                                             Delete
-
                                         </button>
 
                                     </td>

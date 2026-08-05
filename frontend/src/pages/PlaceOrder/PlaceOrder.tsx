@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import PageHeader from "../../components/common/PageHeader";
-
+import { toast } from "react-toastify";
 import * as customerService from "../../services/customerService";
 import * as inventoryService from "../../services/inventoryService";
 import * as orderService from "../../services/orderService";
@@ -36,9 +36,10 @@ function PlaceOrder() {
         try {
 
             const customerResponse = await customerService.getCustomers();
+            console.log("Customers:", customerResponse);
 
             const productResponse = await inventoryService.getProducts();
-
+             console.log("Products:", productResponse);
             setCustomers(customerResponse);
 
             setProducts(productResponse);
@@ -89,7 +90,7 @@ function PlaceOrder() {
 
             });
 
-            alert("Order Created Successfully");
+            toast.success("Order Created Successfully");
 
             setCustomerId("");
 
@@ -104,7 +105,7 @@ function PlaceOrder() {
 
             console.error(error);
 
-            alert("Unable to create order");
+            toast.error("Unable to create order");
 
         }
         finally {

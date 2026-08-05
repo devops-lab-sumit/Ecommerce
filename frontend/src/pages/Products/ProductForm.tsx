@@ -1,125 +1,191 @@
-import { useEffect, useState } from "react";
-import type { Product } from "../../models/product";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
+import * as inventoryService from "../../services/inventoryService";
 
 interface Props {
-    product?: Product;
-    onSave(product: Product): void;
-    onClose(): void;
+    show: boolean;
+    close: () => void;
+    refresh: () => void;
 }
 
-export default function ProductForm({
-    product,
-    onSave,
-    onClose
+function ProductForm({
+    show,
+    close,
+    refresh,
 }: Props) {
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState(0);
+    const [stock, setStock] = useState(0);
 
-    const [form, setForm] = useState<Product>({
-        id: 0,
-        name: "",
-        description: "",
-        price: 0,
-        stock: 0
-    });
+    const [saving, setSaving] = useState(false);
 
-    useEffect(() => {
-        if (product)
-            setForm(product);
-    }, [product]);
+    if (!show) return null;
 
-    function update(
-        e: React.ChangeEvent<HTMLInputElement>
-    ) {
-        setForm({
-            ...form,
-            [e.target.name]:
-                e.target.name === "price" ||
-                e.target.name === "stock"
-                    ? Number(e.target.value)
-                    : e.target.value
-        });
+    async function saveProduct(e: React.FormEvent) {
+        e.preventDefault();
+
+        if (!name.trim()) {
+            toast.error("Product name is required.");
+            return;
+        }
+
+        if (price <= 0) {
+            toast.error("Price must be greater than zero.");
+            return;
+        }
+
+        if (stock < 0) {
+            toast.error("Invalid stock.");
+            return;
+        }
+
+        try {
+            setSaving(true);
+
+            await inventoryService.createProduct({
+                name,
+                description,
+                price,
+                stock,
+            });
+
+            setName("");
+            setDescription("");
+            setPrice(0);
+            setStock(0);
+
+            close();
+            refresh();
+        } catch (error) {
+            console.error(error);
+            toast.error("Unable to create product.");
+        } finally {
+            setSaving(false);
+        }
     }
 
     return (
-
-        <div className="modal d-block">
-
+        <div
+            className="modal fade show"
+            style={{
+                display: "block",
+                background: "rgba(0,0,0,.5)",
+            }}
+        >
             <div className="modal-dialog">
-
                 <div className="modal-content">
 
-                    <div className="modal-header">
+                    <form onSubmit={saveProduct}>
 
-                        <h5>
+                        <div className="modal-header">
 
-                            {form.id === 0
-                                ? "Add Product"
-                                : "Edit Product"}
+                            <h5>Add Product</h5>
 
-                        </h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                onClick={close}
+                            />
 
-                    </div>
+                        </div>
 
-                    <div className="modal-body">
+                        <div className="modal-body">
 
-                        <input
-                            className="form-control mb-3"
-                            placeholder="Name"
-                            name="name"
-                            value={form.name}
-                            onChange={update}
-                        />
+                            <div className="mb-3">
 
-                        <input
-                            className="form-control mb-3"
-                            placeholder="Description"
-                            name="description"
-                            value={form.description}
-                            onChange={update}
-                        />
+                                <label className="form-label">
+                                    Name
+                                </label>
 
-                        <input
-                            type="number"
-                            className="form-control mb-3"
-                            placeholder="Price"
-                            name="price"
-                            value={form.price}
-                            onChange={update}
-                        />
+                                <input
+                                    className="form-control"
+                                    value={name}
+                                    onChange={(e) =>
+                                        setName(e.target.value)
+                                    }
+                                />
 
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Stock"
-                            name="stock"
-                            value={form.stock}
-                            onChange={update}
-                        />
+                            </div>
 
-                    </div>
+                            <div className="mb-3">
 
-                    <div className="modal-footer">
+                                <label className="form-label">
+                                    Description
+                                </label>
 
-                        <button
-                            className="btn btn-secondary"
-                            onClick={onClose}
-                        >
-                            Cancel
-                        </button>
+                                <input
+                                    className="form-control"
+                                    value={description}
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
+                                    }
+                                />
 
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => onSave(form)}
-                        >
-                            Save
-                        </button>
+                            </div>
 
-                    </div>
+                            <div className="mb-3">
+
+                                <label className="form-label">
+                                    Price
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={price}
+                                    onChange={(e) =>
+                                        setPrice(Number(e.target.value))
+                                    }
+                                />
+
+                            </div>
+
+                            <div className="mb-3">
+
+                                <label className="form-label">
+                                    Stock
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={stock}
+                                    onChange={(e) =>
+                                        setStock(Number(e.target.value))
+                                    }
+                                />
+
+                            </div>
+
+                        </div>
+
+                        <div className="modal-footer">
+
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={close}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                className="btn btn-primary"
+                                disabled={saving}
+                            >
+                                {saving ? "Saving..." : "Save Product"}
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
-
             </div>
-
         </div>
-
     );
 }
+
+export default ProductForm;

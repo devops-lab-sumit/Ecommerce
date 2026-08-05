@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as customerService from "../../services/customerService";
+import { toast } from "react-toastify";
 
 interface Props {
     show: boolean;
@@ -18,12 +19,12 @@ function CustomerForm({ show, close, refresh }: Props) {
         e.preventDefault();
 
         if (!name.trim()) {
-            alert("Customer name is required.");
+            toast.error("Customer name is required.");
             return;
         }
 
         if (!email.trim()) {
-            alert("Email is required.");
+            toast.error("Email is required.");
             return;
         }
 
@@ -42,7 +43,7 @@ function CustomerForm({ show, close, refresh }: Props) {
             refresh();
         } catch (error) {
             console.error(error);
-            alert("Unable to create customer.");
+            toast.error("Unable to create customer.");
         } finally {
             setSaving(false);
         }
