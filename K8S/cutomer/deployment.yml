@@ -2,32 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: Customer-api
+  name: customer-api-deployment
+  # namespace: ecommerce
   labels:
-    app: Customer-api
+    app: customer-api
     env: non-prod
 
 spec:
   replicas: 2
-  Selector:
+  selector:
     matchLabels:
-      app: Customer-api
+      app: customer-api
       env: non-prod
 
   template:
     metadata:
       labels:
-        app: Customer-api
+        app: customer-api
         env: non-prod
 
     spec:
       imagePullSecrets:
       - name: regcred  # <-- Links your deployment to the Docker Hub credentials
       containers:
-      - name: Customer-api
+      - name: customer-api
         image: sumit198/customer-api:1.0.1
         imagePullPolicy: Always
         ports:
-        - containerport: 80
+        - containerPort: 80
 
 

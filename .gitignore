@@ -1,2 +1,5 @@
 K8S/Secret/docker-secret.yml
 K8S/Scripts/K8s_connecting_Private_Docker_hub.txt
+.env
+secrets.json
+K8S/Readme.md

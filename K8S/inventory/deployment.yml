@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: inventory-api
+  name: inventory-api-deployment
+  namespace: ecommerce
   labels:
     app: inventory-api
     env: non-prod
