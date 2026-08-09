@@ -1,0 +1,14 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+prompt = no
+
+[req_distinguished_name]
+CN = ecommerce-client
+
+[req_ext]
+subjectAltName = @alt_names
+extendedKeyUsage = clientAuth
+
+[alt_names]
+DNS.1 = ecommerce-client

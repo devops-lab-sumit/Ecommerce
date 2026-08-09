@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "LgAk6OtjAvc=",
+  "dgSpecHash": "mMICcLkiAEc=",
   "success": true,
-  "projectFilePath": "E:\\Ecommerce\\src\\Shared.Contracts\\Shared.Contracts.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/sumit/MyFolder/Ecommerce/src/Shared.Contracts/Shared.Contracts.csproj",
+  "expectedPackageFiles": [
+    "/home/sumit/.nuget/packages/microsoft.netcore.app.ref/9.0.18/microsoft.netcore.app.ref.9.0.18.nupkg.sha512",
+    "/home/sumit/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.18/microsoft.aspnetcore.app.ref.9.0.18.nupkg.sha512"
+  ],
   "logs": []
 }

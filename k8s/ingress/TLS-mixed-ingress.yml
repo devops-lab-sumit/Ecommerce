@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: ecommerce-ingress-tls-mixed-based
+  namespace: ecommerce
+  labels:
+    app: mixed-ingress
+    env: non-prod
+spec:
+  ingressClassName: traefik
+
+  tls:
+   - hosts:
+      - customer.test
+      - inventory.test
+     secretName: ecommerce-tls 
+
+  rules:
+
+    - host: customer.test
+      http:
+        paths:
+        
+          - path: /api/customers
+            pathType: Prefix
+
+            backend:
+              service: 
+               name: customer-api-service
+               port:
+                number: 80
+
+          - path: /api/customers/
+            pathType: Prefix
+
+            backend:
+              service:
+               name:  customer-api-service
+               port:
+                number: 80
+
+    - host: inventory.test
+      http:
+        paths:
+
+          - path: /api/products
+            pathType: Prefix
+
+            backend:
+              service:
+                name: inventory-api-service
+                port:
+                  number: 80

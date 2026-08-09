@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: ecommerce-ingress-host-based
+  namespace: ecommerce
+
+spec:
+  ingressClassName: traefik
+
+  rules:
+   - host: customer.test
+     http:
+      paths:
+
+        - path: /
+          pathType: Prefix
+          backend:
+           service:
+            name: customer-api-service
+            port:
+             number: 80
+
+   - host: inventory.test
+     http:
+      paths:
+
+       - path: /
+         pathType: Prefix
+         backend:
+          service:
+           name: inventory-api-service
+           port:
+            number: 80
+

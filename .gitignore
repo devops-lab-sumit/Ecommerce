@@ -3,3 +3,5 @@ K8S/Scripts/K8s_connecting_Private_Docker_hub.txt
 .env
 secrets.json
 K8S/Readme.md
+# TLS private keys
+*.key
